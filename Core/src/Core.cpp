@@ -7,6 +7,7 @@ using namespace std;
 
 int main()
 {
+	glfwInit();
 	cout << "Hello CMake." << endl;
 	return 0;
 }

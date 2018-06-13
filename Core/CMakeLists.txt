@@ -5,5 +5,11 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("Core")
 
+include_directories("./include")
+
+link_directories("./lib")
+
+list(APPEND LIBS "glfw3")
+
 # Include sub-projects.
-add_subdirectory ("src")
+add_subdirectory ("./src")
