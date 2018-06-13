@@ -1,18 +1,23 @@
-﻿#include "Core.h"
+﻿/*
+	Studio: Ambicour Studio
+	Author: Aaron Robert
+*/
+#include "core.h"
+#include "debug.h"
 
 using namespace std;
 
-void ErrorCallback(int error, const char* description)
+void errorCallback(int error, const char* description)
 {
 	cout << "[ERROR]" << description << endl;
 }
 
-void WindowCloseCallback(GLFWwindow* window)
+void windowCloseCallback(GLFWwindow* window)
 {
 
 }
 
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
@@ -22,11 +27,12 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 int main()
 {
+	debugOutput("Init renderer.");
 	if (!glfwInit())
 	{
 		cout << "Init failed" << endl;
 	}
-	glfwSetErrorCallback(ErrorCallback);
+	glfwSetErrorCallback(errorCallback);
 
 	GLFWwindow* window = glfwCreateWindow(640, 480, "Test window", NULL, NULL);
 	if (!window)
@@ -35,8 +41,8 @@ int main()
 	}
 
 	glfwMakeContextCurrent(window);
-	glfwSetWindowCloseCallback(window, WindowCloseCallback);
-	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetWindowCloseCallback(window, windowCloseCallback);
+	glfwSetKeyCallback(window, keyCallback);
 
 	while (!glfwWindowShouldClose(window))
 	{
