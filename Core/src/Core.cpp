@@ -30,7 +30,7 @@ int main()
 	debugOutput("Init renderer.");
 	if (!glfwInit())
 	{
-		cout << "Init failed" << endl;
+		errorInput("GLFW init failed.");
 	}
 	glfwSetErrorCallback(errorCallback);
 
@@ -46,6 +46,7 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
+		
 		glfwPollEvents();
 	}
 

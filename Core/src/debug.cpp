@@ -9,7 +9,7 @@ void debugOutput(const char* message)
 	cout << "[DEBUG]" << message << endl;
 }
 
-void error(const char* error)
+void errorInput(const char* error)
 {
 	cout << "[ERROR]" << error << endl;
 }
