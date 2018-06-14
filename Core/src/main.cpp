@@ -2,7 +2,7 @@
 	Studio: Ambicour Studio
 	Author: Aaron Robert
 */
-#include "core.h"
+#include "main.h"
 #include "debug.h"
 
 using namespace std;
