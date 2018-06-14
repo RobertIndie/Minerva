@@ -5,7 +5,7 @@ using namespace std;
 
 void Renderer::Initialize()
 {
-	debugOutput("Init renderer");
+	MODULE_START("Renderer");
 	if (!glfwInit())//GLFW can be initialized many times.
 	{
 		errorInput("GLFW init failed.");
@@ -24,6 +24,7 @@ void Renderer::Initialize()
 	glfwMakeContextCurrent(_window);
 	glfwSetWindowCloseCallback(_window, windowCloseCallback);
 	glfwSetKeyCallback(_window, keyCallback);
+	MODULE_END("Renderer");
 }
 
 void Renderer::Run()

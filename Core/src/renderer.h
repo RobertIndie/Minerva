@@ -16,7 +16,6 @@ public:
 protected:
 	GLFWwindow* _window;
 	static std::vector<GLFWwindow*>* _windowsPool;
-
 private:
 	static void errorCallback(int error, const char* description);
 	static void windowCloseCallback(GLFWwindow* window);
