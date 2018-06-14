@@ -3,6 +3,8 @@
 
 using namespace std;
 
+list<GLFWwindow*> Renderer::_windowsPool;
+
 void Renderer::Initialize()
 {
 	MODULE_START("Renderer");
@@ -20,6 +22,7 @@ void Renderer::Initialize()
 		errorInput("Window create failed.");
 		return;
 	}
+	addWidnow(_window);
 
 	glfwMakeContextCurrent(_window);
 	glfwSetWindowCloseCallback(_window, windowCloseCallback);
@@ -55,6 +58,14 @@ void Renderer::keyCallback(GLFWwindow * window, int key, int scancode, int actio
 	{
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
+}
+
+void Renderer::addWidnow(GLFWwindow* window)
+{
+	_windowsPool.push_back(window);
+	stringstream ss;
+	ss << "Add window{" << window << "} to windows pool.";
+	debugOutput(ss.str().c_str());
 }
 
 Renderer::~Renderer()
