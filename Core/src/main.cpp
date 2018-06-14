@@ -19,9 +19,6 @@ public:
 
 int main()
 {
-#include <list>
-	list<int> l = { 1,2,3,4 };
-	auto it = std::find(l.begin(), l.end(), 3);
 	App* app = new App;
 	app->Initialize();
 	app->Run();
