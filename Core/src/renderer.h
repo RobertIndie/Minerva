@@ -9,13 +9,13 @@ class Renderer
 {
 public:
 	Renderer(void) {}
-	virtual ~Renderer(void) {}	
+	virtual ~Renderer(void);
 	virtual void Initialize();
-	virtual void Display() = 0;
-
+	virtual void Update() = 0;
+	void Run();
 protected:
 	GLFWwindow* _window;
-	static std::vector<GLFWindow*>* _windowsPool;
+	static std::vector<GLFWwindow*>* _windowsPool;
 
 private:
 	static void errorCallback(int error, const char* description);
