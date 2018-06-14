@@ -6,3 +6,11 @@
 #include <iostream>
 #include "GLFW/glfw3.h"
 #include "renderer.h"
+
+class App :public Renderer
+{
+public:
+	typedef class Renderer base;
+	void Initialize();
+	void Update();
+};

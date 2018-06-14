@@ -5,17 +5,19 @@
 #include "main.h"
 #include "debug.h"
 
+#include "GLFW/glfw3.h"
+
 using namespace std;
 
-class App :public Renderer
+void App::Initialize()
 {
-public:
-	void Update()
-	{
 
-	}
-};
+}
 
+void App::Update()
+{
+
+}
 
 int main()
 {
