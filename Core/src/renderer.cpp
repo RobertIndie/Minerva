@@ -143,8 +143,10 @@ void Renderer::Initialize()
 	glfwSetWindowCloseCallback(_window, windowCloseCallback);
 	glfwSetKeyCallback(_window, keyCallback);
 
-	isInited = true;
+	gl3wInit();
 
+	isInited = true;
+	VAO = new GLuint;
 	glGenVertexArrays(1, VAO);
 	glBindVertexArray(*VAO);
 
@@ -152,7 +154,7 @@ void Renderer::Initialize()
 		{ -0.90f, -0.90f },{ 0.85f, -0.90f },{ -0.90f,  0.85f },  // Triangle 1
 	{ 0.90f, -0.85f },{ 0.90f,  0.90f },{ -0.85f,  0.90f }   // Triangle 2
 	};
-
+	buffer = new GLuint;
 	glGenBuffers(1, buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -171,6 +173,8 @@ void Renderer::Initialize()
 	glEnableVertexAttribArray(0);
 
 	MODULE_END("Renderer");
+
+	
 }
 
 void Renderer::Run()
@@ -181,6 +185,7 @@ void Renderer::Run()
 	}
 	while (!glfwWindowShouldClose(_window))
 	{
+		glfwSwapBuffers(_window);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glBindVertexArray(*VAO);
