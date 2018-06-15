@@ -4,7 +4,7 @@
 #pragma once
 
 #include <iostream>
-#include "GLFW/glfw3.h"
+
 #include "renderer.h"
 
 class App :public Renderer

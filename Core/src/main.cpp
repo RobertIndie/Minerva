@@ -27,7 +27,7 @@ App::~App()
 int main()
 {
 	App* app = new App;
-	//app->Initialize();
+	app->Initialize();
 	app->Run();
 	delete app;
 	app = NULL;
