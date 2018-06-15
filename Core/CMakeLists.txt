@@ -5,6 +5,8 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("Core")
 
+add_definitions(" /wd4430 ")
+
 include_directories("./include")
 
 link_directories("./lib")

@@ -13,4 +13,5 @@ public:
 	typedef class Renderer base;
 	void Initialize();
 	void Update();
+	~App();
 };
