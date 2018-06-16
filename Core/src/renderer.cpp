@@ -31,9 +31,10 @@ ReadShader(const char* filename)
 		return NULL;
 	}
 
-	fseek(infile, 0, SEEK_END);
-	int len = ftell(infile);
-	fseek(infile, 0, SEEK_SET);
+	// To get len.
+	fseek(infile, 0, SEEK_END);//seek endo position
+	int len = ftell(infile);//return the length of file
+	fseek(infile, 0, SEEK_SET);//seek back to start position
 
 	GLchar* source = new GLchar[len + 1];
 
@@ -122,6 +123,7 @@ LoadShaders(ShaderInfo* shaders)
 
 void Renderer::Initialize()
 {
+
 	MODULE_START("Renderer");
 	if (!glfwInit())//GLFW can be initialized many times.
 	{
@@ -160,8 +162,8 @@ void Renderer::Initialize()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	ShaderInfo  shaders[] = {
-		{ GL_VERTEX_SHADER, "E://keypress.vert" },
-		{ GL_FRAGMENT_SHADER, "E://keypress.frag" },
+		{ GL_VERTEX_SHADER, "../../../shader/shader.vert" },
+		{ GL_FRAGMENT_SHADER, "../../../shader/shader.frag" },
 		{ GL_NONE, NULL }
 	};
 
