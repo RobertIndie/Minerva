@@ -6,7 +6,8 @@
 #include <GL3/gl3.h>
 #include <GLFW/glfw3.h>
 
-#include "debug.h"
+#include "../debug.h"
+#include "shader.h"
 
 class Renderer
 {
