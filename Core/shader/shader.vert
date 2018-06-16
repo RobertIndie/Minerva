@@ -9,5 +9,5 @@ void
 main()
 {
 	vec4 t = vec4(0,0,0,0.5);
-    gl_Position = vPosition / 2 + t;
+    gl_Position = offset / 2 + t;
 }

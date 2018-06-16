@@ -45,6 +45,15 @@ void Renderer::Initialize()
 	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+	GLfloat  obs[6][2] = {
+		{ -0.90f, -0.90f },{ 0.85f, -0.90f },{ -0.90f,  0.85f },  // Triangle 1
+	{ 0.90f, -0.85f },{ 0.90f,  0.90f },{ -0.85f,  0.90f }   // Triangle 2
+	};
+	GLuint* ob = new GLuint;
+	glGenBuffers(1, ob);
+	glBindBuffer(GL_ARRAY_BUFFER, *ob);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(obs), obs, GL_STATIC_DRAW);
+
 	ShaderInfo  shaders[] = {
 		{ GL_VERTEX_SHADER, "../../../shader/shader.vert" },
 		{ GL_FRAGMENT_SHADER, "../../../shader/shader.frag" },
@@ -56,7 +65,10 @@ void Renderer::Initialize()
 #define BUFFER_OFFSET(a) ((void*)(a))
 	glVertexAttribPointer(0, 2, GL_FLOAT,
 		GL_FALSE, 0, BUFFER_OFFSET(0));
+	glVertexAttribPointer(1, 2, GL_FLOAT,
+		GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 
 	MODULE_END("Renderer");
 
