@@ -4,6 +4,39 @@
 
 using namespace std;
 
+#pragma region Primitives
+
+Point::Point()
+{
+	verticesCount = VERTICES_COUNT;
+	verticesPosition = new float[VERTICES_COUNT];
+}
+
+Point::Point(float x, float y)
+{
+	*verticesPosition = x;
+	*(verticesPosition + 1) = y;
+}
+
+Triangle::Triangle()
+{
+	verticesCount = VERTICES_COUNT;
+	verticesPosition = new float[VERTICES_COUNT];
+}
+
+void
+Triangle::SetPointPosition(Point* points)
+{
+	float* tmp = verticesPosition;
+	for (int i = 0; i < VERTICES_COUNT / Point::VERTICES_COUNT; ++i)
+	{
+		*(tmp++) = points->GetX();
+		*(tmp++) = points->GetY();
+	}
+}
+#pragma endregion
+
+
 list<GLFWwindow*> Renderer::windowsPool;
 
 void Renderer::Initialize()
