@@ -9,6 +9,7 @@
 #include "../debug.h"
 #include "shader.h"
 
+
 class Renderer
 {
 public:
@@ -29,17 +30,4 @@ private:
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void addWindow(GLFWwindow* window);
 	static void destroyWindow(GLFWwindow* window);
-};
-
-#define BEGIN_RENDERER_APP_DECLARATION(appclass)                    \
-class appclass : public Renderer									\
-{																	\
-public:																\
-    typedef class Renderer base;									\
-    static Renderer * Create(void)									\
-    {																\
-        return new appclass;										\
-    }
-
-#define END_RENDERER_APP_DECLARATION()                              \
 };
