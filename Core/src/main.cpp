@@ -17,7 +17,15 @@ void App::Initialize()
 
 void App::Update()
 {
-
+	Clear();
+	Point points[3] = {
+		Point(-0.90f, -0.90f),
+		Point(0.85f, -0.90f),
+		Point(-0.90f,  0.85f)
+	};
+	Triangle tri;
+	tri.SetPoints(points);
+	DrawTriangle(&tri);
 }
 
 App::~App()

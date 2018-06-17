@@ -27,7 +27,7 @@ Triangle::Triangle()
 }
 
 void
-Triangle::SetPointPosition(const Point* points)
+Triangle::SetPoints(const Point* points)
 {
 	float* tmp = vertices;
 	for (int i = 0; i < VERTICES_COUNT / Point::VERTICES_COUNT; ++i)
@@ -43,7 +43,6 @@ Triangle::GetPoint(const int index) const
 	return Point(*(vertices + 2 * index), *(vertices + 2 * index + 1));
 }
 #pragma endregion
-
 
 list<GLFWwindow*> Renderer::windowsPool;
 
@@ -116,13 +115,17 @@ void Renderer::Run()
 		glClear(GL_COLOR_BUFFER_BIT);
 		glBindVertexArray(*VAO);
 
-		glBufferData(GL_ARRAY_BUFFER, vertices.size * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+		if (vertices.size() != 0)
+		{
+			glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
-		//Draw Triangles
-		int primitiveCount = vertices.size % Triangle::VERTICES_COUNT;
-		if (primitiveCount != 0)
-			errorInput("vertices count is wrong!");
-		glDrawArrays(GL_TRIANGLES, 0, primitiveCount);
+			//Draw Triangles
+			int primitiveCount = vertices.size() / Triangle::VERTICES_COUNT;
+			if (vertices.size() % Triangle::VERTICES_COUNT != 0)
+				errorInput("vertices count is wrong!");
+			glDrawArrays(GL_TRIANGLES, 0, primitiveCount);
+		}
+		
 
 		Update();
 		glfwPollEvents();

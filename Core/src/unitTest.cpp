@@ -18,7 +18,7 @@ void unitTest()
 	}
 
 	Triangle triangle;
-	triangle.SetPointPosition(points);
+	triangle.SetPoints(points);
 	for (int i = 0; i < 3; i++)
 	{
 		assert(Equal(triangle.GetPoint(i).GetX(), points[i].GetX()));

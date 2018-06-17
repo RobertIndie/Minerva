@@ -67,7 +67,7 @@ class Triangle :public Primitive
 public:
 	const static std::size_t VERTICES_COUNT = 3 * Point::VERTICES_COUNT;
 	Triangle();
-	void SetPointPosition(const Point*);
+	void SetPoints(const Point*);
 	Point GetPoint(const int index) const;
 };
 

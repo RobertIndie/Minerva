@@ -12,6 +12,6 @@ class App :public Renderer
 public:
 	typedef class Renderer base;
 	void Initialize();
-	void Update();
+	void Update() override;
 	~App();
 };
