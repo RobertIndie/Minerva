@@ -48,7 +48,7 @@ public:
 	}
 	Point* SetY(float y)
 	{
-		*(verticesPosition) = y;
+		*(verticesPosition+1) = y;
 		return this;
 	}
 };

@@ -16,12 +16,12 @@ void unitTest()
 	};
 	//Point
 	Point points[3];
-	for (int i = 0; i < 6; )
+	for (int i = 0,j=0; i < 3; i++)
 	{
-		points[i].SetX(testPoints[i++]);
-		points[i].SetY(testPoints[i++]);
-		assert(Equal(points[i].GetX(), testPoints[i - 2]));
-		assert(Equal(points[i].GetY(), testPoints[i - 1]));
+		points[i].SetX(testPoints[j++]);
+		points[i].SetY(testPoints[j++]);
+		assert(Equal(points[i].GetX(), testPoints[j - 2]));
+		assert(Equal(points[i].GetY(), testPoints[j - 1]));
 	}
 	//MODULE_END("Unit Test");
 }

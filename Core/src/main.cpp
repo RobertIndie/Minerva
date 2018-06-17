@@ -6,6 +6,7 @@
 #include "debug.h"
 
 #include "GLFW/glfw3.h"
+#include "unitTest.h"
 
 using namespace std;
 
@@ -26,11 +27,7 @@ App::~App()
 
 int main()
 {
-#define DEBUG
-#ifdef DEBUG
-#include "unitTest.h"
 	unitTest();
-#endif
 	App* app = new App;
 	app->Initialize();
 	app->Run();
