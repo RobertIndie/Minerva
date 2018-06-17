@@ -15,27 +15,27 @@ class Primitive
 {
 protected:
 	std::size_t verticesCount;
-	float* verticesPosition;
+	float* vertices;
 public:
-	std::size_t GetVerticesCount()
+	std::size_t GetVerticesCount() const
 	{
 		return verticesCount;
 	}
-	const float* GetVertices()
+	const float* GetVertices() const
 	{
-		return verticesPosition;
+		return vertices;
 	}
 };
 
 class Point :public Primitive
 {
-#define GET_X *(verticesPosition)
-#define GET_Y *(verticesPosition + 1)
+#define GET_X *(vertices)
+#define GET_Y *(vertices + 1)
 private:
 public:
 	const static std::size_t VERTICES_COUNT = 2;
 	Point();
-	Point(float x, float y);
+	Point(const float x, const float y);
 	float GetX() const
 	{
 		return GET_X;
@@ -44,12 +44,12 @@ public:
 	{
 		return GET_Y;
 	}
-	Point* SetX(float x)
+	Point* SetX(const float x)
 	{
 		GET_X = x;
 		return this;
 	}
-	Point* SetY(float y)
+	Point* SetY(const float y)
 	{
 		GET_Y = y;
 		return this;
@@ -67,19 +67,21 @@ class Triangle :public Primitive
 public:
 	const static std::size_t VERTICES_COUNT = 3 * Point::VERTICES_COUNT;
 	Triangle();
-	void SetPointPosition(Point*);
-	Point GetPoint(int index);
+	void SetPointPosition(const Point*);
+	Point GetPoint(const int index) const;
 };
 
 class Renderer
 {
 public:
-	std::vector<Primitive*> primitives;
+	std::vector<float> vertices;
 	Renderer(void) {}
 	virtual ~Renderer(void);
 	virtual void Initialize();
 	virtual void Update() = 0;
 	void Run();
+	void DrawTriangle(const Triangle* triangle);
+	void Clear();
 protected:
 	GLFWwindow* _window;
 	static std::list<GLFWwindow*> windowsPool;

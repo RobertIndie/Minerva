@@ -9,27 +9,27 @@ using namespace std;
 Point::Point()
 {
 	verticesCount = VERTICES_COUNT;
-	verticesPosition = new float[VERTICES_COUNT];
+	vertices = new float[VERTICES_COUNT];
 }
 
-Point::Point(float x, float y)
+Point::Point(const float x, const float y)
 {
 	verticesCount = VERTICES_COUNT;
-	verticesPosition = new float[VERTICES_COUNT];
-	*verticesPosition = x;
-	*(verticesPosition + 1) = y;
+	vertices = new float[VERTICES_COUNT];
+	*vertices = x;
+	*(vertices + 1) = y;
 }
 
 Triangle::Triangle()
 {
 	verticesCount = VERTICES_COUNT;
-	verticesPosition = new float[VERTICES_COUNT];
+	vertices = new float[VERTICES_COUNT];
 }
 
 void
-Triangle::SetPointPosition(Point* points)
+Triangle::SetPointPosition(const Point* points)
 {
-	float* tmp = verticesPosition;
+	float* tmp = vertices;
 	for (int i = 0; i < VERTICES_COUNT / Point::VERTICES_COUNT; ++i)
 	{
 		*(tmp++) = (points + i)->GetX();
@@ -38,9 +38,9 @@ Triangle::SetPointPosition(Point* points)
 }
 
 Point
-Triangle::GetPoint(int index)
+Triangle::GetPoint(const int index) const
 {
-	return Point(*(verticesPosition + 2 * index), *(verticesPosition + 2 * index + 1));
+	return Point(*(vertices + 2 * index), *(vertices + 2 * index + 1));
 }
 #pragma endregion
 
@@ -77,23 +77,14 @@ void Renderer::Initialize()
 	glGenVertexArrays(1, VAO);
 	glBindVertexArray(*VAO);
 
-	GLfloat  vertices[6][2] = {
-		{ -0.90f, -0.90f },{ 0.85f, -0.90f },{ -0.90f,  0.85f },  // Triangle 1
-	{ 0.90f, -0.85f },{ 0.90f,  0.90f },{ -0.85f,  0.90f }   // Triangle 2
-	};
+	//GLfloat  vertices[6][2] = {
+	//	{ -0.90f, -0.90f },{ 0.85f, -0.90f },{ -0.90f,  0.85f },  // Triangle 1
+	//{ 0.90f, -0.85f },{ 0.90f,  0.90f },{ -0.85f,  0.90f }   // Triangle 2
+	//};
 	buffer = new GLuint;
 	glGenBuffers(1, buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	GLfloat  obs[6][2] = {
-		{ -0.90f, -0.90f },{ 0.85f, -0.90f },{ -0.90f,  0.85f },  // Triangle 1
-	{ 0.90f, -0.85f },{ 0.90f,  0.90f },{ -0.85f,  0.90f }   // Triangle 2
-	};
-	GLuint* ob = new GLuint;
-	glGenBuffers(1, ob);
-	glBindBuffer(GL_ARRAY_BUFFER, *ob);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(obs), obs, GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	ShaderInfo  shaders[] = {
 		{ GL_VERTEX_SHADER, "../../../shader/shader.vert" },
@@ -106,10 +97,7 @@ void Renderer::Initialize()
 #define BUFFER_OFFSET(a) ((void*)(a))
 	glVertexAttribPointer(0, 2, GL_FLOAT,
 		GL_FALSE, 0, BUFFER_OFFSET(0));
-	glVertexAttribPointer(1, 2, GL_FLOAT,
-		GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
 
 	MODULE_END("Renderer");
 
@@ -126,13 +114,32 @@ void Renderer::Run()
 	{
 		glfwSwapBuffers(_window);
 		glClear(GL_COLOR_BUFFER_BIT);
-
 		glBindVertexArray(*VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glBufferData(GL_ARRAY_BUFFER, vertices.size * sizeof(float), &vertices[0], GL_STATIC_DRAW);
+
+		//Draw Triangles
+		int primitiveCount = vertices.size % Triangle::VERTICES_COUNT;
+		if (primitiveCount != 0)
+			errorInput("vertices count is wrong!");
+		glDrawArrays(GL_TRIANGLES, 0, primitiveCount);
 
 		Update();
 		glfwPollEvents();
 	}
+}
+
+void
+Renderer::DrawTriangle(const Triangle* triangle)
+{
+	const float* triangleVertices = triangle->GetVertices();
+	vertices.insert(vertices.end(), triangleVertices, triangleVertices + Triangle::VERTICES_COUNT);
+}
+
+void
+Renderer::Clear()
+{
+	vertices.clear();
 }
 
 void Renderer::errorCallback(int error, const char * description)
@@ -173,6 +180,7 @@ void Renderer::destroyWindow(GLFWwindow * window)
 
 Renderer::~Renderer()
 {
+	Clear();
 	destroyWindow(_window);
 	if (windowsPool.size() == 0)
 		glfwTerminate();
