@@ -14,6 +14,8 @@ Point::Point()
 
 Point::Point(float x, float y)
 {
+	verticesCount = VERTICES_COUNT;
+	verticesPosition = new float[VERTICES_COUNT];
 	*verticesPosition = x;
 	*(verticesPosition + 1) = y;
 }
@@ -30,9 +32,15 @@ Triangle::SetPointPosition(Point* points)
 	float* tmp = verticesPosition;
 	for (int i = 0; i < VERTICES_COUNT / Point::VERTICES_COUNT; ++i)
 	{
-		*(tmp++) = points->GetX();
-		*(tmp++) = points->GetY();
+		*(tmp++) = (points + i)->GetX();
+		*(tmp++) = (points + i)->GetY();
 	}
+}
+
+Point
+Triangle::GetPoint(int index)
+{
+	return Point(*(verticesPosition + 2 * index), *(verticesPosition + 2 * index + 1));
 }
 #pragma endregion
 

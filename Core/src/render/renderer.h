@@ -9,6 +9,7 @@
 
 #include "../debug.h"
 #include "shader.h"
+#include "../util/util.h"
 
 class Primitive
 {
@@ -28,29 +29,37 @@ public:
 
 class Point :public Primitive
 {
+#define GET_X *(verticesPosition)
+#define GET_Y *(verticesPosition + 1)
 private:
 public:
 	const static std::size_t VERTICES_COUNT = 2;
 	Point();
 	Point(float x, float y);
-	float GetX()
+	float GetX() const
 	{
-		return *verticesPosition;
+		return GET_X;
 	}
-	float GetY()
+	float GetY() const
 	{
-		return *(verticesPosition + 1);
+		return GET_Y;
 	}
 	Point* SetX(float x)
 	{
-		*verticesPosition = x;
+		GET_X = x;
 		return this;
 	}
 	Point* SetY(float y)
 	{
-		*(verticesPosition+1) = y;
+		GET_Y = y;
 		return this;
 	}
+	bool operator ==(const Point &p) const
+	{
+		return Equal(GET_X, p.GetX()) && Equal(GET_Y, p.GetY());
+	}
+#undef GET_X
+#undef GET_Y
 };
 
 class Triangle :public Primitive
@@ -59,6 +68,7 @@ public:
 	const static std::size_t VERTICES_COUNT = 3 * Point::VERTICES_COUNT;
 	Triangle();
 	void SetPointPosition(Point*);
+	Point GetPoint(int index);
 };
 
 class Renderer
