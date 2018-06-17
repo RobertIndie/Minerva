@@ -120,10 +120,10 @@ void Renderer::Run()
 			glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
 			//Draw Triangles
-			int primitiveCount = vertices.size() / Triangle::VERTICES_COUNT;
-			if (vertices.size() % Triangle::VERTICES_COUNT != 0)
+			int pointsCount = vertices.size() / Point::VERTICES_COUNT;
+			if (vertices.size() % Triangle::VERTICES_COUNT != 0)//check if vertices number matches the triangle number
 				errorInput("vertices count is wrong!");
-			glDrawArrays(GL_TRIANGLES, 0, primitiveCount);
+			glDrawArrays(GL_TRIANGLES, 0, vertices.size() / Point::VERTICES_COUNT);
 		}
 		
 
