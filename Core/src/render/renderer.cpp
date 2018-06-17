@@ -6,6 +6,12 @@ using namespace std;
 
 #pragma region Primitives
 
+Primitive::~Primitive()
+{
+	delete[] vertices;
+	vertices = NULL;
+}
+
 Point::Point()
 {
 	verticesCount = VERTICES_COUNT;
@@ -20,10 +26,20 @@ Point::Point(const float x, const float y)
 	*(vertices + 1) = y;
 }
 
+Point::~Point()
+{
+
+}
+
 Triangle::Triangle()
 {
 	verticesCount = VERTICES_COUNT;
 	vertices = new float[VERTICES_COUNT];
+}
+
+Triangle::~Triangle()
+{
+
 }
 
 void
@@ -76,14 +92,9 @@ void Renderer::Initialize()
 	glGenVertexArrays(1, VAO);
 	glBindVertexArray(*VAO);
 
-	//GLfloat  vertices[6][2] = {
-	//	{ -0.90f, -0.90f },{ 0.85f, -0.90f },{ -0.90f,  0.85f },  // Triangle 1
-	//{ 0.90f, -0.85f },{ 0.90f,  0.90f },{ -0.85f,  0.90f }   // Triangle 2
-	//};
 	buffer = new GLuint;
 	glGenBuffers(1, buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	ShaderInfo  shaders[] = {
 		{ GL_VERTEX_SHADER, "../../../shader/shader.vert" },

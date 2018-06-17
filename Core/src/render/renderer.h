@@ -25,6 +25,7 @@ public:
 	{
 		return vertices;
 	}
+	~Primitive();
 };
 
 class Point :public Primitive
@@ -33,6 +34,7 @@ class Point :public Primitive
 #define GET_Y *(vertices + 1)
 private:
 public:
+	typedef class Primitive base;
 	const static std::size_t VERTICES_COUNT = 2;
 	Point();
 	Point(const float x, const float y);
@@ -58,6 +60,7 @@ public:
 	{
 		return Equal(GET_X, p.GetX()) && Equal(GET_Y, p.GetY());
 	}
+	~Point();
 #undef GET_X
 #undef GET_Y
 };
@@ -65,10 +68,12 @@ public:
 class Triangle :public Primitive
 {
 public:
+	typedef class Primitive base;
 	const static std::size_t VERTICES_COUNT = 3 * Point::VERTICES_COUNT;
 	Triangle();
 	void SetPoints(const Point*);
 	Point GetPoint(const int index) const;
+	~Triangle();
 };
 
 class Renderer

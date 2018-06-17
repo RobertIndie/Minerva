@@ -36,10 +36,5 @@ App::~App()
 int main()
 {
 	unitTest();
-	App* app = new App;
-	app->Initialize();
-	app->Run();
-	delete app;
-	app = NULL;
 	return 0;
 }
