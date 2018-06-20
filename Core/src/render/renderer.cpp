@@ -102,8 +102,8 @@ void Renderer::Initialize()
 		{ GL_NONE, NULL }
 	};
 
-	GLuint program = LoadShaders(shaders);
-	glUseProgram(program);
+	shaderProgram = LoadShaders(shaders);
+	glUseProgram(shaderProgram);
 #define BUFFER_OFFSET(a) ((void*)(a))
 	glVertexAttribPointer(0, 2, GL_FLOAT,
 		GL_FALSE, 0, BUFFER_OFFSET(0));
@@ -194,7 +194,15 @@ void Renderer::destroyWindow(GLFWwindow * window)
 
 Renderer::~Renderer()
 {
+	glUseProgram(0);
+	glDeleteProgram(shaderProgram);
+	glDeleteVertexArrays(1, VAO);
+	glDeleteBuffers(1, buffer);
 	Clear();
+	delete VAO;
+	VAO = NULL;
+	delete buffer;
+	buffer = NULL;
 	destroyWindow(_window);
 	if (windowsPool.size() == 0)
 		glfwTerminate();

@@ -94,6 +94,7 @@ private:
 	bool isInited = false;
 	GLuint* VAO;
 	GLuint* buffer;
+	GLuint shaderProgram;
 	static void errorCallback(int error, const char* description);
 	static void windowCloseCallback(GLFWwindow* window);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
