@@ -97,8 +97,8 @@ void Renderer::Initialize()
 	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
 
 	ShaderInfo  shaders[] = {
-		{ GL_VERTEX_SHADER, "../../../shader/shader.vert" },
-		{ GL_FRAGMENT_SHADER, "../../../shader/shader.frag" },
+		{ GL_VERTEX_SHADER, "../../../shader/shader.vs.glsl" },
+		{ GL_FRAGMENT_SHADER, "../../../shader/shader.fs.glsl" },
 		{ GL_NONE, NULL }
 	};
 
