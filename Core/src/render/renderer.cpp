@@ -84,6 +84,7 @@ void Renderer::Initialize()
 	glfwMakeContextCurrent(_window);
 	glfwSetWindowCloseCallback(_window, windowCloseCallback);
 	glfwSetKeyCallback(_window, keyCallback);
+	glfwSetWindowSizeCallback(_window, windowSzieCallback);
 
 	gl3wInit();
 
@@ -112,6 +113,20 @@ void Renderer::Initialize()
 	MODULE_END("Renderer");
 
 	
+}
+
+void
+Renderer::Update()
+{
+	return;
+}
+
+void
+Renderer::Resize(int width, int height)
+{
+	glViewport(0, 0, width, height);
+	viewportAspect = float(height) / float(width);
+	return;
 }
 
 void Renderer::Run()
@@ -160,7 +175,7 @@ void Renderer::errorCallback(int error, const char * description)
 {
 	stringstream s;
 	s << error << ":" << description;
-	errorInput("");
+	errorInput(s.str().c_str());
 }
 
 void Renderer::windowCloseCallback(GLFWwindow * window)
@@ -175,6 +190,19 @@ void Renderer::keyCallback(GLFWwindow * window, int key, int scancode, int actio
 	{
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
+}
+
+void
+Renderer::windowSzieCallback(GLFWwindow* window, int width, int height)
+{
+	list<GLFWwindow*>::iterator findIter = find(windowsPool.begin(), windowsPool.end(), window);
+	if (findIter == windowsPool.end())
+	{
+		stringstream s;
+		s << "Cannot find window {" << window << "}" << endl;
+		errorInput(s.str().c_str());
+	}
+	//TODO
 }
 
 void Renderer::addWindow(GLFWwindow* window)

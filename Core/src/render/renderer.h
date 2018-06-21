@@ -83,21 +83,24 @@ public:
 	Renderer(void) {}
 	virtual ~Renderer(void);
 	virtual void Initialize();
-	virtual void Update() = 0;
+	virtual void Update();
+	virtual void Resize(int width, int height);
 	void Run();
 	void DrawTriangle(const Triangle* triangle);
 	void Clear();
 protected:
 	GLFWwindow* _window;
-	static std::list<GLFWwindow*> windowsPool;
 private:
+	static std::list<GLFWwindow*> windowsPool;
 	bool isInited = false;
 	GLuint* VAO;
 	GLuint* buffer;
 	GLuint shaderProgram;
+	float viewportAspect = 0.0f;
 	static void errorCallback(int error, const char* description);
 	static void windowCloseCallback(GLFWwindow* window);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void windowSzieCallback(GLFWwindow* window, int width, int height);
 	static void addWindow(GLFWwindow* window);
 	static void destroyWindow(GLFWwindow* window);
 };
