@@ -16,16 +16,27 @@ class Primitive
 protected:
 	std::size_t verticesCount;
 	float* vertices;
+	std::size_t indicesCount;
+	float* indices;
 public:
 	bool enableIndex = false;
-	std::size_t GetVerticesCount() const
+	virtual std::size_t GetVerticesCount() const
 	{
 		return verticesCount;
 	}
-	const float* GetVertices() const
+	virtual const float* GetVertices() const
 	{
 		return vertices;
 	}
+	virtual std::size_t GetIndicesCount() const
+	{
+		return indicesCount;
+	}
+	virtual const float* GetIndices() const
+	{
+		return indices;
+	}
+	virtual void PreRender() {};
 	~Primitive();
 };
 
@@ -85,7 +96,7 @@ private:
 	Point _pos;
 public:
 	typedef class Primitive base;
-	const static std::size_t VERTICES_COUNT = 2 * Triangle::VERTICES_COUNT;
+	const static std::size_t VERTICES_COUNT = 4 * Point::VERTICES_COUNT;
 	Rectangle();
 	void SetWidth(const float width);
 	float GetWidth() const;
@@ -93,6 +104,7 @@ public:
 	float GetHeight() const;
 	void SetPosition(const Point pos);
 	Point GetPosition() const;
+	void PreRender() override;
 };
 
 class Renderer

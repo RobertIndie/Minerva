@@ -103,6 +103,13 @@ Rectangle::GetPosition() const
 {
 	return _pos;
 }
+
+void
+Rectangle::PreRender()
+{
+	vector<float> tmp;
+	tmp.insert
+}
 #pragma endregion
 
 std::list<Renderer*> renderersPool;
@@ -204,7 +211,7 @@ void Renderer::Run()
 }
 
 void
-Renderer::DrawTriangle(const Triangle* triangle)
+Renderer::DrawTriangle(const Triangle* triangle)//TODO
 {
 	const float* triangleVertices = triangle->GetVertices();
 	vertices.insert(vertices.end(), triangleVertices, triangleVertices + Triangle::VERTICES_COUNT);
