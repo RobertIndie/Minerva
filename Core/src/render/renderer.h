@@ -17,6 +17,7 @@ protected:
 	std::size_t verticesCount;
 	float* vertices;
 public:
+	bool enableIndex = false;
 	std::size_t GetVerticesCount() const
 	{
 		return verticesCount;
@@ -74,6 +75,24 @@ public:
 	void SetPoints(const Point*);
 	Point GetPoint(const int index) const;
 	~Triangle();
+};
+
+class Rectangle :public Primitive
+{
+private:
+	float _width;
+	float _height;
+	Point _pos;
+public:
+	typedef class Primitive base;
+	const static std::size_t VERTICES_COUNT = 2 * Triangle::VERTICES_COUNT;
+	Rectangle();
+	void SetWidth(const float width);
+	float GetWidth() const;
+	void SetHeight(const float height);
+	float GetHeight() const;
+	void SetPosition(const Point pos);
+	Point GetPosition() const;
 };
 
 class Renderer

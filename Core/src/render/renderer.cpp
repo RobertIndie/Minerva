@@ -18,6 +18,8 @@ Point::Point()
 {
 	verticesCount = VERTICES_COUNT;
 	vertices = new float[VERTICES_COUNT];
+	*vertices = 0;
+	*(vertices + 1) = 0;
 }
 
 Point::Point(const float x, const float y)
@@ -59,6 +61,47 @@ Point
 Triangle::GetPoint(const int index) const
 {
 	return Point(*(vertices + 2 * index), *(vertices + 2 * index + 1));
+}
+
+Rectangle::Rectangle()
+{
+
+}
+
+void
+Rectangle::SetWidth(const float width)
+{
+	_width = width;
+}
+
+float
+Rectangle::GetWidth() const
+{
+	return _width;
+}
+
+void
+Rectangle::SetHeight(const float height)
+{
+	_height = height;
+}
+
+float
+Rectangle::GetHeight() const
+{
+	return _height;
+}
+
+void
+Rectangle::SetPosition(const Point pos)
+{
+	_pos = pos;
+}
+
+Point
+Rectangle::GetPosition() const
+{
+	return _pos;
 }
 #pragma endregion
 
