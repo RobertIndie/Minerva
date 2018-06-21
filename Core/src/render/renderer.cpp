@@ -4,6 +4,8 @@
 
 using namespace std;
 
+std::list<Renderer*> Renderer::renderersPool;
+
 #pragma region Primitives
 
 Primitive::~Primitive()
@@ -60,7 +62,7 @@ Triangle::GetPoint(const int index) const
 }
 #pragma endregion
 
-list<GLFWwindow*> Renderer::windowsPool;
+std::list<Renderer*> renderersPool;
 
 void Renderer::Initialize()
 {
@@ -79,7 +81,7 @@ void Renderer::Initialize()
 		errorInput("Window create failed.");
 		return;
 	}
-	addWindow(_window);
+	addRenderer(this);
 
 	glfwMakeContextCurrent(_window);
 	glfwSetWindowCloseCallback(_window, windowCloseCallback);
@@ -195,29 +197,33 @@ void Renderer::keyCallback(GLFWwindow * window, int key, int scancode, int actio
 void
 Renderer::windowSzieCallback(GLFWwindow* window, int width, int height)
 {
-	list<GLFWwindow*>::iterator findIter = find(windowsPool.begin(), windowsPool.end(), window);
-	if (findIter == windowsPool.end())
+	list<Renderer*>::iterator iter = renderersPool.begin();
+	for (; iter != renderersPool.end(); iter++)
+	{
+		if ((*iter)->_window == window)
+			break;
+	}
+	if (iter == renderersPool.end())
 	{
 		stringstream s;
 		s << "Cannot find window {" << window << "}" << endl;
 		errorInput(s.str().c_str());
 	}
-	//TODO
+	(*iter)->Resize(width, height);
 }
 
-void Renderer::addWindow(GLFWwindow* window)
+void Renderer::addRenderer(Renderer* renderer)
 {
-	windowsPool.push_back(window);
+	renderersPool.push_back(renderer);
 	stringstream ss;
-	ss << "Add window{" << window << "} to windows pool.";
+	ss << "Add renderer{" << renderer << "} to renderers pool." << "Window:{" << renderer->_window << "}";
 	debugOutput(ss.str().c_str());
 }
 
-void Renderer::destroyWindow(GLFWwindow * window)
+void 
+Renderer::removeRenderer(Renderer* renderer)
 {
-	windowsPool.remove(window);
-	glfwDestroyWindow(window);
-	window = NULL;
+	renderersPool.remove(renderer);
 }
 
 Renderer::~Renderer()
@@ -231,8 +237,10 @@ Renderer::~Renderer()
 	VAO = NULL;
 	delete buffer;
 	buffer = NULL;
-	destroyWindow(_window);
-	if (windowsPool.size() == 0)
+	removeRenderer(this);
+	glfwDestroyWindow(_window);
+	_window = NULL;
+	if (renderersPool.size() == 0)
 		glfwTerminate();
 	debugOutput("Terminate renderer");
 }

@@ -91,7 +91,7 @@ public:
 protected:
 	GLFWwindow* _window;
 private:
-	static std::list<GLFWwindow*> windowsPool;
+	static std::list<Renderer*> renderersPool;
 	bool isInited = false;
 	GLuint* VAO;
 	GLuint* buffer;
@@ -101,6 +101,6 @@ private:
 	static void windowCloseCallback(GLFWwindow* window);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void windowSzieCallback(GLFWwindow* window, int width, int height);
-	static void addWindow(GLFWwindow* window);
-	static void destroyWindow(GLFWwindow* window);
+	static void addRenderer(Renderer* renderer);
+	static void removeRenderer(Renderer* renderer);
 };
