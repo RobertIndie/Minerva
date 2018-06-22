@@ -108,7 +108,6 @@ void
 Rectangle::PreRender()
 {
 	vector<float> tmp;
-	tmp.insert
 }
 #pragma endregion
 
@@ -211,10 +210,9 @@ void Renderer::Run()
 }
 
 void
-Renderer::DrawTriangle(const Triangle* triangle)//TODO
+Renderer::AddTriangle(const Triangle* triangle)//TODO
 {
-	const float* triangleVertices = triangle->GetVertices();
-	vertices.insert(vertices.end(), triangleVertices, triangleVertices + Triangle::VERTICES_COUNT);
+	primitives.push_back((Primitive*)triangle);
 }
 
 void

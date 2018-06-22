@@ -110,18 +110,20 @@ public:
 class Renderer
 {
 public:
-	std::vector<float> vertices;
+	std::vector<Primitive*> primitives;
 	Renderer(void) {}
 	virtual ~Renderer(void);
 	virtual void Initialize();
 	virtual void Update();
 	virtual void Resize(int width, int height);
 	void Run();
-	void DrawTriangle(const Triangle* triangle);
+	void AddTriangle(const Triangle* triangle);
 	void Clear();
 protected:
 	GLFWwindow* _window;
 private:
+	std::size_t integratedPrimitivesCount;
+	std::vector<float> vertices;
 	static std::list<Renderer*> renderersPool;
 	bool isInited = false;
 	GLuint* VAO;
