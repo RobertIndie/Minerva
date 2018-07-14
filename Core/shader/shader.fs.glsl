@@ -6,5 +6,5 @@ layout(location = 0) out vec4 color;
 
 void main(void)
 {
-	color = vs_fs_color;
+	color = vec4(1,1,1,1);
 }

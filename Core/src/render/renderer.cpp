@@ -202,6 +202,7 @@ void Renderer::Run()
 
 		if (vertices.size() != 0)
 		{
+			glBindBuffer(GL_ARRAY_BUFFER, *VAO);
 			glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
 			//Draw Triangles
@@ -211,14 +212,13 @@ void Renderer::Run()
 			glDrawArrays(GL_TRIANGLES, 0, vertices.size() / Point::VERTICES_COUNT);
 		}
 		
-
 		Update();
 		glfwPollEvents();
 	}
 }
 
 void
-Renderer::AddTriangle(const Triangle* triangle)//TODO
+Renderer::AddTriangle(const Triangle* triangle)
 {
 	primitives.push_back((Primitive*)triangle);
 }

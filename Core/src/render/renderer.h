@@ -122,7 +122,6 @@ public:
 protected:
 	GLFWwindow* _window;
 private:
-	std::size_t integratedPrimitivesCount;
 	std::vector<float> vertices;
 	static std::list<Renderer*> renderersPool;
 	bool isInited = false;

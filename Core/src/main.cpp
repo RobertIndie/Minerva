@@ -19,7 +19,7 @@ void App::Initialize()
 		Point(0.85f, -0.90f),
 		Point(-0.90f,  0.85f)
 	};
-	Triangle* tri = new Triangle;
+	Triangle* tri = new Triangle;//memory leak
 	tri->SetPoints(points);
 	AddTriangle(tri);
 
