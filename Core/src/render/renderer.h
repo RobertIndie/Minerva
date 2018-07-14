@@ -94,7 +94,7 @@ public:
 	}
 	Point3D* SetZ(const float z)
 	{
-		GET_Y = y;
+		GET_Y = z;
 		return this;
 	}
 	bool operator ==(const Point3D &p) const
