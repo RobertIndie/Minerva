@@ -7,13 +7,19 @@ using namespace std;
 std::list<Renderer*> Renderer::renderersPool;
 
 #pragma region Primitives
-
+//===============================================//
+//					PRIMITIVE					 //
+//===============================================//
 Primitive::~Primitive()
 {
 	delete[] vertices;
 	vertices = NULL;
 }
 
+
+//===============================================//
+//					POINT   					 //
+//===============================================//
 Point::Point()
 {
 	verticesCount = VERTICES_COUNT;
@@ -35,6 +41,10 @@ Point::~Point()
 
 }
 
+
+//===============================================//
+//					TRIANGLE					 //
+//===============================================//
 Triangle::Triangle()
 {
 	verticesCount = VERTICES_COUNT;
@@ -63,6 +73,10 @@ Triangle::GetPoint(const int index) const
 	return Point(*(vertices + 2 * index), *(vertices + 2 * index + 1));
 }
 
+
+//===============================================//
+//					RECTANGLE					 //
+//===============================================//
 Rectangle::Rectangle()
 {
 
