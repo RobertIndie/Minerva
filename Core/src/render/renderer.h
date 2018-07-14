@@ -16,7 +16,7 @@ class Primitive
 protected:
 	std::size_t verticesCount;
 	float* vertices;
-	std::size_t indicesCount;
+	std::size_t indicesCount;//TODO
 	float* indices;
 public:
 	bool enableIndex = false;

@@ -13,19 +13,21 @@ using namespace std;
 void App::Initialize()
 {
 	base::Initialize();
-}
-
-void App::Update()
-{
 	Clear();
 	Point points[3] = {
 		Point(-0.90f, -0.90f),
 		Point(0.85f, -0.90f),
 		Point(-0.90f,  0.85f)
 	};
-	Triangle tri;
-	tri.SetPoints(points);
-	DrawTriangle(&tri);
+	Triangle* tri = new Triangle;
+	tri->SetPoints(points);
+	AddTriangle(tri);
+
+}
+
+void App::Update()
+{
+
 }
 
 App::~App()

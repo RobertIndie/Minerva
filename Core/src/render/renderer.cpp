@@ -191,6 +191,14 @@ void Renderer::Run()
 		glfwSwapBuffers(_window);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glBindVertexArray(*VAO);
+		
+		vertices.clear();
+		for (vector<Primitive*>::iterator iter = primitives.begin(); iter != primitives.end(); iter++) 
+		{
+			const size_t primitiveVerticesCount = (**iter).GetVerticesCount();
+			const float* primitiveVertices = (**iter).GetVertices();
+			vertices.insert(vertices.end(), primitiveVertices, primitiveVertices + primitiveVerticesCount);
+		}
 
 		if (vertices.size() != 0)
 		{
