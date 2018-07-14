@@ -16,7 +16,7 @@ class Primitive
 protected:
 	std::size_t verticesCount;
 	float* vertices;
-	std::size_t indicesCount;//TODO
+	std::size_t indicesCount;//TODO: using index drawing
 	float* indices;
 public:
 	bool enableIndex = false;
@@ -79,7 +79,9 @@ public:
 
 class Point3D :public Point
 {
-#define GET_Z *(verticces+2)
+#define GET_X *(vertices)
+#define GET_Y *(vertices + 1)
+#define GET_Z *(vertices+2)
 private:
 public:
 	typedef class Point base;
@@ -99,6 +101,9 @@ public:
 	{
 		return Equal(GET_X, p.GetX()) && Equal(GET_Y, p.GetY()) && Equal(GET_Z, p.GetZ());
 	}
+	~Point3D();
+#undef GET_X
+#undef GET_Y
 #undef GET_Z
 };
 
@@ -113,7 +118,7 @@ public:
 	~Triangle();
 };
 
-class Rectangle :public Primitive
+class Rectangle :public Primitive //TODO: implement rectangle primitive
 {
 private:
 	float _width;
