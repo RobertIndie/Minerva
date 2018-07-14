@@ -77,6 +77,31 @@ public:
 #undef GET_Y
 };
 
+class Point3D :public Point
+{
+#define GET_Z *(verticces+2)
+private:
+public:
+	typedef class Point base;
+	const static std::size_t VERTICES_COUNT = Point::VERTICES_COUNT + 1;
+	Point3D();
+	Point3D(const float x, const float y, const float z);
+	float GetZ() const
+	{
+		return GET_Z;
+	}
+	Point3D* SetZ(const float z)
+	{
+		GET_Y = y;
+		return this;
+	}
+	bool operator ==(const Point3D &p) const
+	{
+		return Equal(GET_X, p.GetX()) && Equal(GET_Y, p.GetY()) && Equal(GET_Z, p.GetZ());
+	}
+#undef GET_Z
+};
+
 class Triangle :public Primitive
 {
 public:
