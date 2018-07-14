@@ -43,6 +43,33 @@ Point::~Point()
 
 
 //===============================================//
+//					POINT3D 					 //
+//===============================================//
+Point3D::Point3D()
+{
+	verticesCount = VERTICES_COUNT;
+	vertices = new float[VERTICES_COUNT];
+	*vertices = 0;
+	*(vertices + 1) = 0;
+	*(vertices + 2) = 0;
+}
+
+Point3D::Point3D(const float x, const float y, const float z)
+{
+	verticesCount = VERTICES_COUNT;
+	vertices = new float[VERTICES_COUNT];
+	*vertices = x;
+	*(vertices + 1) = y;
+	*(vertices + 2) = z;
+}
+
+Point3D::~Point3D()
+{
+
+}
+
+
+//===============================================//
 //					TRIANGLE					 //
 //===============================================//
 Triangle::Triangle()
