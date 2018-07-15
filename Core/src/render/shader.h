@@ -17,20 +17,18 @@ typedef struct {
 class ShaderProgram
 {
 public:
+	bool loaded = false;
 	GLuint id;
+	GLuint* VAO;
+	GLuint* buffer;
 
-	static ShaderProgram* LoadShaders(ShaderInfo*);
+	void LoadShaders(ShaderInfo*);
 };
 
 class ShaderProgram3D : public ShaderProgram
 {
 public:
-	GLuint * VAO;
-	GLuint* buffer;
-	GLuint shaderProgram;
-
 	float viewportAspect = 0.0f;
 	GLint render_model_matrix_loc;
 	GLint render_projection_matrix_loc;
-
 };

@@ -113,16 +113,10 @@ internal_LoadShaders(ShaderInfo* shaders)
 	return program;
 }
 
-ShaderProgram*
+void
 ShaderProgram::LoadShaders(ShaderInfo* shaders)
 {
-	ShaderProgram* shaderProgram = NULL;
 	GLuint program = internal_LoadShaders(shaders);
-	if (!program)
-	{
-		return shaderProgram;
-	}
-	shaderProgram = new ShaderProgram;
-	shaderProgram->id = program;
-	return shaderProgram;
+	id = program;
+	loaded = true;
 }

@@ -164,10 +164,7 @@ private:
 #else
 	struct timeval  m_appStartTime;
 #endif
-
-	GLuint* VAO;
-	GLuint* buffer;
-	GLuint shaderProgram;
+	ShaderProgram* shaderProgram;
 
 	float viewportAspect = 0.0f;
 	GLint render_model_matrix_loc;
