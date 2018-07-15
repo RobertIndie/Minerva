@@ -12,7 +12,9 @@ ReadShader(const char* filename)
 
 	if (!infile) {
 #ifdef _DEBUG
-		std::cerr << "Unable to open file '" << filename << "'" << std::endl;
+		message err;
+		err << "Unable to open file '" << filename << "'" << std::endl;
+		errorInput(M2CSTR(err));
 #endif /* DEBUG */
 		return NULL;
 	}
@@ -33,7 +35,7 @@ ReadShader(const char* filename)
 }
 
 GLuint
-LoadShaders(ShaderInfo* shaders)
+internal_LoadShaders(ShaderInfo* shaders)
 {
 	if (shaders == NULL) { return 0; }
 
@@ -69,7 +71,9 @@ LoadShaders(ShaderInfo* shaders)
 
 			GLchar* log = new GLchar[len + 1];
 			glGetShaderInfoLog(shader, len, &len, log);
-			std::cerr << "Shader compilation failed: " << log << std::endl;
+			message err;
+			err << "Shader compilation failed: " << log << std::endl;
+			errorInput(M2CSTR(err));
 			delete[] log;
 #endif /* DEBUG */
 
@@ -92,7 +96,9 @@ LoadShaders(ShaderInfo* shaders)
 
 		GLchar* log = new GLchar[len + 1];
 		glGetProgramInfoLog(program, len, &len, log);
-		std::cerr << "Shader linking failed: " << log << std::endl;
+		message err;
+		err << "Shader linking failed: " << log << std::endl;
+		errorInput(M2CSTR(err));
 		delete[] log;
 #endif /* DEBUG */
 
@@ -105,4 +111,18 @@ LoadShaders(ShaderInfo* shaders)
 	}
 
 	return program;
+}
+
+ShaderProgram*
+ShaderProgram::LoadShaders(ShaderInfo* shaders)
+{
+	ShaderProgram* shaderProgram = NULL;
+	GLuint program = internal_LoadShaders(shaders);
+	if (!program)
+	{
+		return shaderProgram;
+	}
+	shaderProgram = new ShaderProgram;
+	shaderProgram->id = program;
+	return shaderProgram;
 }

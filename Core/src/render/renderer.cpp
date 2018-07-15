@@ -1,5 +1,4 @@
 #include "renderer.h"
-#include <sstream>
 #include <iostream>
 
 using namespace std;
@@ -184,10 +183,10 @@ void Renderer::Initialize()
 	VAO = new GLuint;
 	glGenVertexArrays(1, VAO);
 	glBindVertexArray(*VAO);
-
+/*
 	buffer = new GLuint;
 	glGenBuffers(1, buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, *buffer);*/
 
 	ShaderInfo  shaders[] = {
 		{ GL_VERTEX_SHADER, "../../../shader/shader.vs.glsl" },
@@ -278,7 +277,9 @@ void Renderer::Run()
 		static const vmath::vec3 Z(0.0f, 0.0f, 1.0f);
 
 		// Setup
+		//GL_CULL_FACE:specify whether front- or back-facing polygons can be culled
 		//glEnable(GL_CULL_FACE);
+		//GL_DEPTH_TEST:When there are other pixels in front of the current pixel, if other pixels block it, then it will not be drawed, OpenGL will only draw the frist layer.
 		//glDisable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glBindVertexArray(*VAO);
