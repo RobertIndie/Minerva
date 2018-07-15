@@ -164,12 +164,9 @@ private:
 #else
 	struct timeval  m_appStartTime;
 #endif
-	ShaderProgram* shaderProgram;
 
+	ShaderProgram3D* shaderProgram;
 	float viewportAspect = 0.0f;
-	GLint render_model_matrix_loc;
-	GLint render_projection_matrix_loc;
-
 	static void errorCallback(int error, const char* description);
 	static void windowCloseCallback(GLFWwindow* window);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

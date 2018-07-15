@@ -183,26 +183,18 @@ void Renderer::Initialize()
 
 	ShaderInfo  shaders[] = {
 		{ GL_VERTEX_SHADER, "../../../shader/shader.vs.glsl" },
-	{ GL_FRAGMENT_SHADER, "../../../shader/shader.fs.glsl" },
-	{ GL_NONE, NULL }
+		{ GL_FRAGMENT_SHADER, "../../../shader/shader.fs.glsl" },
+		{ GL_NONE, NULL }
 	};
-	shaderProgram = new ShaderProgram;
+
+	shaderProgram = new ShaderProgram3D;
 	shaderProgram->LoadShaders(shaders);
+	shaderProgram->Initialize();
 	glUseProgram(shaderProgram->id);
 
-	shaderProgram->VAO = new GLuint;
-	glGenVertexArrays(1, shaderProgram->VAO);
-	glBindVertexArray(*shaderProgram->VAO);
-
-	shaderProgram->buffer = new GLuint;
-	glGenBuffers(1, shaderProgram->buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, *shaderProgram->buffer);
+	shaderProgram->Initialize();
 
 	
-
-
-	render_model_matrix_loc = glGetUniformLocation(shaderProgram->id, "model_matrix");
-	render_projection_matrix_loc = glGetUniformLocation(shaderProgram->id, "projection_matrix");
 
 	// 8 corners of a cube, side length 2, centered on the origin
 	static const GLfloat cube_positions[] =
@@ -295,8 +287,8 @@ void Renderer::Run()
 		vmath::mat4 model_matrix(vmath::translate(0.0f, 0.0f, -5.0f) * rotate(t * 360.0f, Y) * rotate(t * 720.0f, Z));
 		vmath::mat4 projection_matrix(vmath::frustum(-1.0f, 1.0f, -viewportAspect, viewportAspect, 1.0f, 500.0f));
 
-		glUniformMatrix4fv(render_model_matrix_loc, 1, GL_FALSE, model_matrix);
-		glUniformMatrix4fv(render_projection_matrix_loc, 1, GL_FALSE, projection_matrix);
+		shaderProgram->SetModelMatrix(model_matrix);
+		shaderProgram->SetProjectionMatrix(projection_matrix);
 
 		glBindVertexArray(*shaderProgram->VAO);
 		
@@ -404,15 +396,7 @@ Renderer::removeRenderer(Renderer* renderer)
 
 Renderer::~Renderer()
 {
-	glUseProgram(0);
-	glDeleteProgram(shaderProgram->id);
-	glDeleteVertexArrays(1, shaderProgram->VAO);
-	glDeleteBuffers(1, shaderProgram->buffer);
 	Clear();
-	delete shaderProgram->VAO;
-	shaderProgram->VAO = NULL;
-	delete shaderProgram->buffer;
-	shaderProgram->buffer = NULL;
 	removeRenderer(this);
 	glfwDestroyWindow(_window);
 	_window = NULL;

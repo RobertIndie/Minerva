@@ -114,9 +114,55 @@ internal_LoadShaders(ShaderInfo* shaders)
 }
 
 void
+ShaderProgram::Initialize()
+{
+	VAO = new GLuint;
+	glGenVertexArrays(1, VAO);
+	glBindVertexArray(*VAO);
+
+	buffer = new GLuint;
+	glGenBuffers(1, buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, *buffer);
+
+	inited = true;
+}
+
+void
 ShaderProgram::LoadShaders(ShaderInfo* shaders)
 {
 	GLuint program = internal_LoadShaders(shaders);
 	id = program;
 	loaded = true;
+}
+
+ShaderProgram::~ShaderProgram()
+{
+	glUseProgram(0);
+	glDeleteProgram(id);
+	glDeleteVertexArrays(1, VAO);
+	glDeleteBuffers(1, buffer);
+	delete VAO;
+	VAO = NULL;
+	delete buffer;
+	buffer = NULL;
+}
+
+void
+ShaderProgram3D::Initialize()
+{
+	base::Initialize();
+	render_model_matrix_loc = glGetUniformLocation(id, "model_matrix");
+	render_projection_matrix_loc = glGetUniformLocation(id, "projection_matrix");
+}
+
+void
+ShaderProgram3D::SetModelMatrix(vmath::mat4 modelMatrix)
+{
+	glUniformMatrix4fv(render_model_matrix_loc, 1, GL_FALSE, modelMatrix);
+}
+
+void 
+ShaderProgram3D::SetProjectionMatrix(vmath::mat4 projectionMatrix)
+{
+	glUniformMatrix4fv(render_projection_matrix_loc, 1, GL_FALSE, projectionMatrix);
 }

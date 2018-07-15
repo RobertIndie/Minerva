@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../debug.h"
+#include "../util/util.h"
 
 typedef struct {
 	GLenum       type;
@@ -16,19 +17,25 @@ typedef struct {
 
 class ShaderProgram
 {
-public:
+private:
 	bool loaded = false;
+	bool inited = false;
+public:
 	GLuint id;
 	GLuint* VAO;
 	GLuint* buffer;
-
+	virtual void Initialize();
 	void LoadShaders(ShaderInfo*);
+	~ShaderProgram();
 };
 
 class ShaderProgram3D : public ShaderProgram
 {
 public:
-	float viewportAspect = 0.0f;
+	typedef class ShaderProgram base;
 	GLint render_model_matrix_loc;
 	GLint render_projection_matrix_loc;
+	void Initialize();
+	void SetModelMatrix(vmath::mat4);
+	void SetProjectionMatrix(vmath::mat4);
 };
