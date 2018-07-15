@@ -197,10 +197,44 @@ void Renderer::Initialize()
 
 	shaderProgram = LoadShaders(shaders);
 	glUseProgram(shaderProgram);
+
+
+	render_model_matrix_loc = glGetUniformLocation(shaderProgram, "model_matrix");
+	render_projection_matrix_loc = glGetUniformLocation(shaderProgram, "projection_matrix");
+
+	// 8 corners of a cube, side length 2, centered on the origin
+	static const GLfloat cube_positions[] =
+	{
+		-1.0f, -1.0f, -1.0f, 1.0f,
+		-1.0f, -1.0f,  1.0f, 1.0f,
+		-1.0f,  1.0f, -1.0f, 1.0f,
+		-1.0f,  1.0f,  1.0f, 1.0f,
+		1.0f, -1.0f, -1.0f, 1.0f,
+		1.0f, -1.0f,  1.0f, 1.0f,
+		1.0f,  1.0f, -1.0f, 1.0f,
+		1.0f,  1.0f,  1.0f, 1.0f
+	};
+
+	// Color for each vertex
+	static const GLfloat cube_colors[] =
+	{
+		1.0f, 1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, 1.0f, 1.0f,
+		1.0f, 0.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, 1.0f
+	};
+
+
 #define BUFFER_OFFSET(a) ((void*)(a))
 	glVertexAttribPointer(0, 2, GL_FLOAT,
 		GL_FALSE, 0, BUFFER_OFFSET(0));
 	glEnableVertexAttribArray(0);
+
+	Resize(640, 480);
 
 	MODULE_END("Renderer");
 
@@ -223,6 +257,12 @@ Renderer::Resize(int width, int height)
 
 void Renderer::Run()
 {
+#ifdef _WIN32
+	m_appStartTime = ::GetTickCount64();
+#else
+	gettimeofday(&m_appStartTime, nullptr);
+#endif
+
 	if (!isInited)
 	{
 		errorInput("Cannot run the renderer before initialize it.");
@@ -230,7 +270,30 @@ void Renderer::Run()
 	while (!glfwWindowShouldClose(_window))
 	{
 		glfwSwapBuffers(_window);
-		glClear(GL_COLOR_BUFFER_BIT);
+
+		float t = float(app_time() & 0x1FFF) / float(0x1FFF);
+		static float q = 0.0f;
+		static const vmath::vec3 X(1.0f, 0.0f, 0.0f);
+		static const vmath::vec3 Y(0.0f, 1.0f, 0.0f);
+		static const vmath::vec3 Z(0.0f, 0.0f, 1.0f);
+
+		// Setup
+		//glEnable(GL_CULL_FACE);
+		//glDisable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glBindVertexArray(*VAO);
+
+
+		// Activate simple shading program
+		glUseProgram(shaderProgram);
+
+		// Set up the model and projection matrix
+		vmath::mat4 model_matrix(vmath::translate(0.0f, 0.0f, -5.0f) * rotate(t * 360.0f, Y) * rotate(t * 720.0f, Z));
+		vmath::mat4 projection_matrix(vmath::frustum(-1.0f, 1.0f, -viewportAspect, viewportAspect, 1.0f, 500.0f));
+
+		glUniformMatrix4fv(render_model_matrix_loc, 1, GL_FALSE, model_matrix);
+		glUniformMatrix4fv(render_projection_matrix_loc, 1, GL_FALSE, projection_matrix);
+
 		glBindVertexArray(*VAO);
 		
 		vertices.clear();
@@ -268,6 +331,18 @@ void
 Renderer::Clear()
 {
 	vertices.clear();
+}
+
+unsigned int
+Renderer::app_time()
+{
+#ifdef _WIN32
+	ULONGLONG currentTime = ::GetTickCount64();
+
+	return (unsigned int)(currentTime - m_appStartTime);
+#else
+	return 0;
+#endif
 }
 
 void Renderer::errorCallback(int error, const char * description)

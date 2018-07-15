@@ -149,16 +149,30 @@ public:
 	void Run();
 	void AddTriangle(const Triangle* triangle);
 	void Clear();
+
+	unsigned int app_time();
+
 protected:
 	GLFWwindow* _window;
 private:
 	std::vector<float> vertices;
 	static std::list<Renderer*> renderersPool;
 	bool isInited = false;
+
+#ifdef _WIN32
+	ULONGLONG       m_appStartTime;
+#else
+	struct timeval  m_appStartTime;
+#endif
+
 	GLuint* VAO;
 	GLuint* buffer;
 	GLuint shaderProgram;
+
 	float viewportAspect = 0.0f;
+	GLint render_model_matrix_loc;
+	GLint render_projection_matrix_loc;
+
 	static void errorCallback(int error, const char* description);
 	static void windowCloseCallback(GLFWwindow* window);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
