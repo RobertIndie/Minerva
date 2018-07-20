@@ -22,38 +22,10 @@ Primitive::~Primitive()
 Point::Point()
 {
 	verticesCount = VERTICES_COUNT;
-	vertices = new float[VERTICES_COUNT];
-	*vertices = 0;
-	*(vertices + 1) = 0;
+	Point(0, 0, 0);
 }
 
-Point::Point(const float x, const float y)
-{
-	verticesCount = VERTICES_COUNT;
-	vertices = new float[VERTICES_COUNT];
-	*vertices = x;
-	*(vertices + 1) = y;
-}
-
-Point::~Point()
-{
-
-}
-
-
-//===============================================//
-//					POINT3D 					 //
-//===============================================//
-Point3D::Point3D()
-{
-	verticesCount = VERTICES_COUNT;
-	vertices = new float[VERTICES_COUNT];
-	*vertices = 0;
-	*(vertices + 1) = 0;
-	*(vertices + 2) = 0;
-}
-
-Point3D::Point3D(const float x, const float y, const float z)
+Point::Point(const float x, const float y, const float z)
 {
 	verticesCount = VERTICES_COUNT;
 	vertices = new float[VERTICES_COUNT];
@@ -62,11 +34,10 @@ Point3D::Point3D(const float x, const float y, const float z)
 	*(vertices + 2) = z;
 }
 
-Point3D::~Point3D()
+Point::~Point()
 {
 
 }
-
 
 //===============================================//
 //					TRIANGLE					 //
@@ -90,13 +61,14 @@ Triangle::SetPoints(const Point* points)
 	{
 		*(tmp++) = (points + i)->GetX();
 		*(tmp++) = (points + i)->GetY();
+		*(tmp++) = (points + i)->GetZ();
 	}
 }
 
 Point
 Triangle::GetPoint(const int index) const
 {
-	return Point(*(vertices + 2 * index), *(vertices + 2 * index + 1));
+	return Point(*(vertices + Point::VERTICES_COUNT * index), *(vertices + Point::VERTICES_COUNT * index + 1), *(vertices + Point::VERTICES_COUNT*index + 2));
 }
 
 

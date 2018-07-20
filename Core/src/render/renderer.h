@@ -44,12 +44,13 @@ class Point :public Primitive
 {
 #define GET_X *(vertices)
 #define GET_Y *(vertices + 1)
+#define GET_Z *(vertices + 2)
 private:
 public:
 	typedef class Primitive base;
-	const static std::size_t VERTICES_COUNT = 2;
+	const static std::size_t VERTICES_COUNT = 3;
 	Point();
-	Point(const float x, const float y);
+	Point(const float x, const float y, const float z = 0);
 	float GetX() const
 	{
 		return GET_X;
@@ -57,6 +58,10 @@ public:
 	float GetY() const
 	{
 		return GET_Y;
+	}
+	float GetZ() const
+	{
+		return GET_Z;
 	}
 	Point* SetX(const float x)
 	{
@@ -68,40 +73,16 @@ public:
 		GET_Y = y;
 		return this;
 	}
-	bool operator ==(const Point &p) const
+	Point* SetZ(const float z)
 	{
-		return Equal(GET_X, p.GetX()) && Equal(GET_Y, p.GetY());
-	}
-	~Point();
-#undef GET_X
-#undef GET_Y
-};
-
-class Point3D :public Point
-{
-#define GET_X *(vertices)
-#define GET_Y *(vertices + 1)
-#define GET_Z *(vertices+2)
-private:
-public:
-	typedef class Point base;
-	const static std::size_t VERTICES_COUNT = Point::VERTICES_COUNT + 1;
-	Point3D();
-	Point3D(const float x, const float y, const float z);
-	float GetZ() const
-	{
-		return GET_Z;
-	}
-	Point3D* SetZ(const float z)
-	{
-		GET_Y = z;
+		GET_Z = z;
 		return this;
 	}
-	bool operator ==(const Point3D &p) const
+	bool operator ==(const Point &p) const
 	{
 		return Equal(GET_X, p.GetX()) && Equal(GET_Y, p.GetY()) && Equal(GET_Z, p.GetZ());
 	}
-	~Point3D();
+	~Point();
 #undef GET_X
 #undef GET_Y
 #undef GET_Z
