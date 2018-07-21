@@ -19,12 +19,6 @@ Primitive::~Primitive()
 //===============================================//
 //					POINT   					 //
 //===============================================//
-Point::Point()
-{
-	verticesCount = VERTICES_COUNT;
-	Point(0, 0, 0);
-}
-
 Point::Point(const float x, const float y, const float z)
 {
 	verticesCount = VERTICES_COUNT;
@@ -68,7 +62,7 @@ Triangle::SetPoints(const Point* points)
 Point
 Triangle::GetPoint(const int index) const
 {
-	return Point(*(vertices + Point::VERTICES_COUNT * index), *(vertices + Point::VERTICES_COUNT * index + 1), *(vertices + Point::VERTICES_COUNT*index + 2));
+	return Point(*(vertices + Point::VERTICES_COUNT * index), *(vertices + Point::VERTICES_COUNT * index + 1), *(vertices + Point::VERTICES_COUNT * index + 2));
 }
 
 
